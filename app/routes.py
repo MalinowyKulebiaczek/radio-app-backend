@@ -32,7 +32,7 @@ def radio_schedule():
 @app.route('/auditions')
 def auditions():
     auditions = Audition.query.order_by(Audition.id).all()
-    auditions_dto = AlbumsDTO(auditions)
+    auditions_dto = AuditionsDTO(Audition.serialize_list(auditions))
     response = app.response_class(
         response=json.dumps(auditions_dto, default=vars),
         status=200,
@@ -56,7 +56,7 @@ def specific_audition(audition_id):
 @app.route('/recordings')
 def recordings():
     recordings = Recording.query.order_by(Recording.id).all()
-    recordings_dto = AlbumsDTO(Album.serialize_list(recordings))
+    recordings_dto = RecordingsDTO(Recording.serialize_list(recordings))
     response = app.response_class(
         response=json.dumps(recordings_dto, default=vars),
         status=200,
