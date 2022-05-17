@@ -17,8 +17,11 @@ def hello_world():
 # Auditions
 @app.route('/radioschedule')
 def radio_schedule():
+    auditions = Audition.query.order_by(Audition.id).all()
+    radio_schedule_dto_new = RadioScheduleDTO(auditions)
+
     response = app.response_class(
-        response=json.dumps(radio_schedule_dto, default=vars),
+        response=json.dumps(radio_schedule_dto_new, default=vars),
         status=200,
         mimetype='application/json'
     )
@@ -28,6 +31,8 @@ def radio_schedule():
 # Auditions
 @app.route('/auditions')
 def auditions():
+    auditions = Audition.query.order_by(Audition.id).all()
+    auditions_dto = AlbumsDTO(auditions)
     response = app.response_class(
         response=json.dumps(auditions_dto, default=vars),
         status=200,
@@ -38,13 +43,9 @@ def auditions():
 
 @app.route('/auditions/<audition_id>')
 def specific_audition(audition_id):
-    audition_to_return = None
-    for audition in auditions_dto.members:
-        if audition.id == int(audition_id):
-            audition_to_return = audition
-
+    audition_to_return = Audition.query.filter(Audition.id == audition_id).one()
     response = app.response_class(
-        response=json.dumps(audition_to_return, default=vars),
+        response=json.dumps(audition_to_return.serialize()),
         status=200,
         mimetype='application/json'
     )
@@ -54,6 +55,8 @@ def specific_audition(audition_id):
 # Recordings
 @app.route('/recordings')
 def recordings():
+    recordings = Recording.query.order_by(Recording.id).all()
+    recordings_dto = AlbumsDTO(Album.serialize_list(recordings))
     response = app.response_class(
         response=json.dumps(recordings_dto, default=vars),
         status=200,
@@ -65,13 +68,9 @@ def recordings():
 # Recordings
 @app.route('/recordings/<recording_id>')
 def specific_recording(recording_id):
-    recording_to_return = None
-    for recording in recordings_dto.members:
-        if recording.id == int(recording_id):
-            recording_to_return = recording
-
+    recording_to_return = Recording.query.filter(Recording.id == recording_id).one()
     response = app.response_class(
-        response=json.dumps(recording_to_return, default=vars),
+        response=json.dumps(recording_to_return.serialize()),
         status=200,
         mimetype='application/json'
     )
@@ -82,7 +81,6 @@ def specific_recording(recording_id):
 @app.route('/albums')
 def albums():
     albums = Album.query.order_by(Album.id).all()
-    # print(albums)
     albums_resp = AlbumsDTO(Album.serialize_list(albums))
     response = app.response_class(
         response=json.dumps(albums_resp, default=vars),
@@ -94,13 +92,9 @@ def albums():
 
 @app.route('/albums/<album_id>')
 def specific_album(album_id):
-    album_to_return = None
-    for album in albums_dto.members:
-        if album.id == int(album_id):
-            album_to_return = album
-
+    album = Album.query.filter(Album.id == album_id).one()
     response = app.response_class(
-        response=json.dumps(album_to_return, default=vars),
+        response=json.dumps(album.serialize()),
         status=200,
         mimetype='application/json'
     )
@@ -111,6 +105,8 @@ def specific_album(album_id):
 # Members
 @app.route('/members')
 def members():
+    members = Member.query.order_by(Member.id).all()
+    members_dto = MembersDTO(Member.serialize_list(members))
     response = app.response_class(
         response=json.dumps(members_dto, default=vars),
         status=200,
@@ -122,13 +118,10 @@ def members():
 
 @app.route('/members/<member_id>')
 def specific_member(member_id):
-    member_to_return = None
-    for member in members_dto.members:
-        if member.id == int(member_id):
-            member_to_return = member
+    member_to_return = Member.query.filter(Member.id == member_id).one()
 
     response = app.response_class(
-        response=json.dumps(member_to_return, default=vars),
+        response=json.dumps(member_to_return.serialize()),
         status=200,
         mimetype='application/json'
     )

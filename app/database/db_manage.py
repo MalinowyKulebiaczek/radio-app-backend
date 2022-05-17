@@ -17,14 +17,14 @@ def insert_member(name, surname, urlImg, mainAudition):
     return member
 
 
-def insert_recording(title, url, description):
-    recording = Recording(title=title, url=url, description=description)
+def insert_recording(title, url, urlImg, description):
+    recording = Recording(title=title, url=url, urlImg=urlImg, description=description)
     db.session.add(recording)
     db.session.commit()
     return recording
 
 
-def insert_audtion(title, urlImg, author, description, day, hourStart, hourEnd):
+def insert_audition(title, urlImg, author, description, day, hourStart, hourEnd):
     audition = Audition(title=title, urlImg=urlImg, author=author, description=description, day=day,
                         hourStart=hourStart, hourEnd=hourEnd)
     db.session.add(audition)
