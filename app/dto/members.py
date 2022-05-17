@@ -1,4 +1,4 @@
-from model.models import *
+from app.model.models import *
 
 
 class MembersDTO:

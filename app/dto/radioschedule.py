@@ -1,5 +1,5 @@
-from constants.constants import WeekDays
-from dto.auditions import auditions_list
+from app.constants.constants import WeekDays
+from app.dto.auditions import auditions_list
 
 
 class RadioScheduleDTO:

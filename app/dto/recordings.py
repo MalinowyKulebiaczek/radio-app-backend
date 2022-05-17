@@ -1,4 +1,4 @@
-from model.models import Recording
+from app.model.models import Recording
 
 
 class RecordingsDTO:

@@ -1,5 +1,5 @@
-from model.models import Audition
-from constants.constants import WeekDays
+from app.model.models import Audition
+from app.constants.constants import WeekDays
 
 
 class AuditionsDTO:
